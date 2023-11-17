@@ -1,14 +1,8 @@
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
+export default function PrivateRoute() {
+  const { currentUser } = useSelector((state) => state.user);
 
-function Protected({children}) {
-    const currentUser = useSelector((state)=>state.user)
-
-    if(!currentUser){
-        return <Navigate to='/sign-up' replace={true}></Navigate>
-    }
-    return children;
+  return currentUser ? <Outlet /> : <Navigate to="/sign-in" />;
 }
-
-export default Protected;

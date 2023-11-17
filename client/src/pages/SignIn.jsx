@@ -10,6 +10,7 @@ export default function SignIn() {
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
+    // getting the value of data from the form
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
@@ -20,6 +21,7 @@ export default function SignIn() {
     e.preventDefault();
     try {
       dispatch(signInStarted());
+      // sending request to server
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
