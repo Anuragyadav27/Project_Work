@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import authRouter from './routes/auth.route.js'
 import userRouter from './routes/user.route.js'
 import cookieParser from 'cookie-parser';
+import path from 'path'
 
 // connecting to mongoose
 mongoose.connect("mongodb+srv://anuragyadav290902:ram@ram.fq5dfu0.mongodb.net/").then(() =>{
@@ -10,6 +11,7 @@ mongoose.connect("mongodb+srv://anuragyadav290902:ram@ram.fq5dfu0.mongodb.net/")
 }).catch((err) =>{
   console.log(err)});
 
+    const __dirname = path.resolve()
 
 const app = express();
 
@@ -23,6 +25,12 @@ app.listen(4000 ,()=>{
 // providing the roots functionality
 app.use('/api/auth',authRouter)
 app.use('/api/user',userRouter)
+
+app.use(express.static(path.join(__dirname,'/client/dist')));
+
+app.get('*',(req, res)=>{
+    res.sendFile(path.join(__dirname,'client','dist','index.html'));
+})
 
 app.use((err, req, res, next) => {
     const statusCode = res.statusCode || 500;
